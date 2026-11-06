@@ -366,4 +366,5 @@ Use TLS, restrict CORS to the production frontend origin, and size CPU/memory/ti
 
 The earlier AI documentation described the project as MIT-licensed, but no repository `LICENSE` file is present. Confirm ownership and applicable dependency/model/data terms, then add an authoritative license before distributing the project.
 #   V i r t u a l - H e r b a l - G a r d e n  
+ #   v i r t u a l - h e r b a l - g a r d e n  
  
