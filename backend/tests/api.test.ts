@@ -1,22 +1,29 @@
 import request from "supertest";
 import mongoose from "mongoose";
 import { randomUUID } from "crypto";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../src/app";
 
-const testDbUri = process.env.MONGODB_TEST_URI;
 const testEmail = `test-${randomUUID()}@herbiva.test`;
+let mongoServer: MongoMemoryServer | undefined;
 
 beforeAll(async () => {
-  if (!testDbUri) {
-    throw new Error(
-      "MONGODB_TEST_URI must be set to an isolated test database before running API tests.",
-    );
+  jest.setTimeout(120000);
+
+  if (!process.env.MONGODB_TEST_URI) {
+    mongoServer = await MongoMemoryServer.create();
+    process.env.MONGODB_TEST_URI = mongoServer.getUri();
   }
-  await mongoose.connect(testDbUri);
-});
+
+  await mongoose.connect(process.env.MONGODB_TEST_URI);
+}, 120000);
 
 afterAll(async () => {
   await mongoose.connection.close();
+
+  if (mongoServer) {
+    await mongoServer.stop();
+  }
 });
 
 describe("Health Check API", () => {

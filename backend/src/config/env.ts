@@ -9,6 +9,7 @@ const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   MONGODB_URI: z.string().url(),
+  MONGODB_TEST_URI: z.string().url().optional(),
   JWT_SECRET: z.string().min(10),
   JWT_EXPIRES_IN: z.string().default("7d"),
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
